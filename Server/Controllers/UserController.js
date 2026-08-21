@@ -57,58 +57,67 @@ export const CreateContact = async (req, res) => {
     });
 
     //   Admin Order Notification
-    await MailTransfer.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: "🔔 New Contact Form Submission - StackGSB Studio",
+    try {
+      await MailTransfer.sendMail({
+        from: process.env.EMAIL_USER,
+        to: process.env.EMAIL_USER,
+        subject: "🔔 New Contact Form Submission - StackGSB Studio",
 
-      html: `
-                <h2>New Enquiry Submission</h2>
+        html: `
+                  <h2>New Enquiry Submission</h2>
+  
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phonenumber}</p>
+  
+          <h3>Message</h3>
+          <p>${message}</p>
+  
+          <hr>
+  
+          <p>New inquiry received from StackGSB Studio website.</p>
+  
+                  `,
+      });
 
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phonenumber}</p>
+      //   Client Email confirmation
 
-        <h3>Message</h3>
-        <p>${message}</p>
+      await MailTransfer.sendMail({
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Thank You for Contacting StackGSB Studio",
 
-        <hr>
+        html: `
+                  <h2>Hi ${name}</h2>
+  
+                  <p>Thank you for contacting StackGSB Studio.<p/>
+                  <p>We have successfully received your enquiry regarding ${service}<p/>
+                  <p>Our team will review your requirements and get back to you shortly.<p/>
+  
+                  <h3>Your Enquiry Details</h3>
+                  <p>Name: ${name}</p>
+                  <p>Service: ${service}</p>
+                  <p>Message: ${message}</p>
+  
+  
+                  <p>Thank your for choosing StackGSB Studio</p>
+  
+                  <p>Regards</p>
+                  <p>StackGSB Studio</p>
+                  `,
+      });
 
-        <p>New inquiry received from StackGSB Studio website.</p>
-
-                `,
-    });
-
-    //   Client Email confirmation
-
-    await MailTransfer.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Thank You for Contacting StackGSB Studio",
-
-      html: `
-                <h2>Hi ${name}</h2>
-
-                <p>Thank you for contacting StackGSB Studio.<p/>
-                <p>We have successfully received your enquiry regarding ${service}<p/>
-                <p>Our team will review your requirements and get back to you shortly.<p/>
-
-                <h3>Your Enquiry Details</h3>
-                <p>Name: ${name}</p>
-                <p>Service: ${service}</p>
-                <p>Message: ${message}</p>
-
-
-                <p>Thank your for choosing StackGSB Studio</p>
-
-                <p>Regards</p>
-                <p>StackGSB Studio</p>
-                `,
-    });
-
+      return res.status(201).json({
+        success: true,
+        message: "Your messsage has been submitted successfully",
+        data: contact,
+      });
+    } catch (emailError) {
+      console.error("Email sending failed:", emailError);
+    }
     return res.status(201).json({
       success: true,
-      message: "Your messsage has been submitted successfully",
+      message: "Your message has been submitted successfully",
       data: contact,
     });
   } catch (err) {
