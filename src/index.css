@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+@utility no-appearance {
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@keyframes wheelMove {
+  0% {
+    top: 6px;
+    opacity: 1;
+  }
+  50% {
+    top: 20px;
+    opacity: 0.4;
+  }
+  100% {
+    top: 6px;
+    opacity: 1;
+  }
+}
+@keyframes arrowFade {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.animate-wheel {
+  animation: wheelMove 1.5s infinite;
+}
+.animate-arrow {
+  animation: arrowFade 1.5s infinite;
+}
