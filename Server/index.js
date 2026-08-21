@@ -45,7 +45,7 @@ app.get("/api/enquiries", (req, res) => {
 // React Frontend
 // =========================
 
-const ClientPath = path.join(_dirname, "../Client/dist");
+const ClientPath = path.join(_dirname, "../dist");
 
 app.use(express.static(ClientPath));
 
