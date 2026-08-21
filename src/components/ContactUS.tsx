@@ -6,10 +6,7 @@ import axios from "axios";
 import StackGSBpic from "../assets/image/StackGSB.png";
 
 const EnquiryApi = import.meta.env.VITE_API_URL || "";
-
-if (!EnquiryApi) {
-  throw new Error("VITE_API_URL is not configured.");
-}
+console.log(EnquiryApi);
 
 export function ContactUS() {
   const [formData, setFormData] = useState({
