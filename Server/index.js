@@ -1,23 +1,42 @@
 import express from "express";
-import "dotenv/config";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
-import DbConnection from "./DBConnection/DB.js";
 import path from "path";
 import { fileURLToPath } from "url";
-import enquiryRoutes from "./Routes/UserRoutes.js";
 import cors from "cors";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Server/.env explicitly load karo
+dotenv.config({
+  path: path.join(__dirname, ".env"),
+});
+
+console.log("ENV PATH:", path.join(__dirname, ".env"));
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("EMAIL_PASS loaded:", Boolean(process.env.EMAIL_PASS));
+
+// IMPORTANT:
+// env load hone ke baad backend modules import karo
+const { default: DbConnection } = await import("./DBConnection/DB.js");
+
+const { default: enquiryRoutes } = await import("./Routes/UserRoutes.js");
 
 const app = express();
 const port = process.env.PORT || 8081;
-
-const _filename = fileURLToPath(import.meta.url);
-const _dirname = path.dirname(_filename);
 
 DbConnection();
 
 // =========================
 // Middleware
 // =========================
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:8081",
+  "https://stackgsb-studio.onrender.com",
+];
 
 app.use(
   cors({
@@ -45,7 +64,7 @@ app.get("/api/enquiries", (req, res) => {
 // React Frontend
 // =========================
 
-const ClientPath = path.join(_dirname, "../dist");
+const ClientPath = path.join(__dirname, "../dist");
 
 app.use(express.static(ClientPath));
 

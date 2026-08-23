@@ -1,5 +1,6 @@
 import MailTransfer from "../config/mailer.js";
 import UserModels from "../Models/UserModels.js";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const escapeHtml = (value = "") => {
   return String(value)
@@ -14,33 +15,66 @@ export const CreateContact = async (req, res) => {
   try {
     const { name, email, phonenumber, service, message } = req.body;
 
-    const isValidEmail = (email) => {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
+    // =========================
+    // Required fields
+    // =========================
 
     if (!name || !email || !phonenumber || !service || !message) {
       return res.status(400).json({
         success: false,
-        message: "All Fields are required",
+        message: "All fields are required",
       });
     }
 
-    if (!isValidEmail(email)) {
+    // =========================
+    // Normalize data
+    // =========================
+
+    const normalizedName = name.trim();
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedMessage = message.trim();
+
+    // =========================
+    // Email validation
+    // =========================
+
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail);
+
+    if (!isValidEmail) {
       return res.status(400).json({
         success: false,
-        message: "Please proivde a valid email address",
+        message: "Please provide a valid email address",
       });
     }
 
-    const ExitingEnquiry = await UserModels.findOne({
-      email: email.toLowerCase(),
-      service: service,
+    // =========================
+    // Phone validation
+    // =========================
+
+    const validatedPhone = parsePhoneNumberFromString(phonenumber);
+
+    if (!validatedPhone || !validatedPhone.isValid()) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid phone number",
+      });
+    }
+
+    const normalizedPhone = validatedPhone.number;
+
+    // =========================
+    // Duplicate enquiry
+    // =========================
+
+    const existingEnquiry = await UserModels.findOne({
+      email: normalizedEmail,
+      service,
       createdAt: {
         $gte: new Date(Date.now() - 24 * 60 * 60 * 1000),
       },
     });
 
-    if (ExitingEnquiry) {
+    if (existingEnquiry) {
       return res.status(400).json({
         success: false,
         message:
@@ -48,84 +82,211 @@ export const CreateContact = async (req, res) => {
       });
     }
 
+    // =========================
+    // Save to MongoDB
+    // =========================
+
     const contact = await UserModels.create({
-      name,
-      email,
-      phonenumber,
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
+      phonenumber: validatedPhone.number,
       service,
-      message,
+      message: message.trim(),
     });
 
-    //   Admin Order Notification
+    console.log("✅ Enquiry saved:", contact._id);
+
+    // ========================================
+    // SEND ADMIN + CLIENT EMAIL
+    // ========================================
+
     try {
-      await MailTransfer.sendMail({
-        from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER,
-        subject: "🔔 New Contact Form Submission - StackGSB Studio",
+      const emailResults = await Promise.allSettled([
+        // ========================================
+        // 1. ADMIN EMAIL
+        // ========================================
 
-        html: `
-                  <h2>New Enquiry Submission</h2>
-  
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phonenumber}</p>
-  
-          <h3>Message</h3>
-          <p>${message}</p>
-  
-          <hr>
-  
-          <p>New inquiry received from StackGSB Studio website.</p>
-  
-                  `,
-      });
+        MailTransfer.sendMail({
+          from: `"StackGSB Studio" <${process.env.EMAIL_USER}>`,
+          to: process.env.EMAIL_USER,
 
-      //   Client Email confirmation
+          subject: "🔔 New Contact Form Submission - StackGSB Studio",
 
-      await MailTransfer.sendMail({
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: "Thank You for Contacting StackGSB Studio",
+          html: `
+        <h2>New Enquiry Submission</h2>
 
-        html: `
-                  <h2>Hi ${name}</h2>
-  
-                  <p>Thank you for contacting StackGSB Studio.<p/>
-                  <p>We have successfully received your enquiry regarding ${service}<p/>
-                  <p>Our team will review your requirements and get back to you shortly.<p/>
-  
-                  <h3>Your Enquiry Details</h3>
-                  <p>Name: ${name}</p>
-                  <p>Service: ${service}</p>
-                  <p>Message: ${message}</p>
-  
-  
-                  <p>Thank your for choosing StackGSB Studio</p>
-  
-                  <p>Regards</p>
-                  <p>StackGSB Studio</p>
-                  `,
-      });
+        <p>
+          <strong>Name:</strong>
+          ${escapeHtml(name)}
+        </p>
 
-      return res.status(201).json({
-        success: true,
-        message: "Your messsage has been submitted successfully",
-        data: contact,
-      });
+        <p>
+          <strong>Email:</strong>
+          ${escapeHtml(email)}
+        </p>
+
+        <p>
+          <strong>Phone:</strong>
+          ${escapeHtml(validatedPhone.number)}
+        </p>
+
+        <p>
+          <strong>Service:</strong>
+          ${escapeHtml(service)}
+        </p>
+
+        <h3>Message</h3>
+
+        <p>${escapeHtml(message)}</p>
+
+        <hr>
+
+        <p>
+          New enquiry received from StackGSB Studio website.
+        </p>
+      `,
+        }),
+
+        // ========================================
+        // 2. CLIENT CONFIRMATION EMAIL
+        // ========================================
+
+        MailTransfer.sendMail({
+          from: `"StackGSB Studio" <${process.env.EMAIL_USER}>`,
+
+          to: email.toLowerCase().trim(),
+          replyTo: process.env.EMAIL_USER,
+
+          subject: "Thank You for Contacting StackGSB Studio",
+
+          html: `
+        <div
+          style="
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #1f2937;
+            line-height: 1.6;
+          "
+        >
+
+          <h2 style="color: #172554;">
+            Hi ${escapeHtml(name.trim())},
+          </h2>
+
+          <p>
+            Thank you for contacting
+            <strong>StackGSB Studio</strong>.
+          </p>
+
+          <p>
+            We have successfully received your enquiry regarding
+            <strong>${escapeHtml(service)}</strong>.
+          </p>
+
+          <p>
+            Our team will review your requirements and get back
+            to you shortly.
+          </p>
+
+          <div
+            style="
+              background: #f8fafc;
+              border: 1px solid #e5e7eb;
+              border-radius: 8px;
+              padding: 20px;
+              margin: 24px 0;
+            "
+          >
+            <h3
+              style="
+                margin-top: 0;
+                color: #172554;
+              "
+            >
+              Your Enquiry Details
+            </h3>
+
+            <p>
+              <strong>Name:</strong>
+              ${escapeHtml(name.trim())}
+            </p>
+
+            <p>
+              <strong>Email:</strong>
+              ${escapeHtml(email.toLowerCase().trim())}
+            </p>
+
+            <p>
+              <strong>Phone:</strong>
+              ${escapeHtml(validatedPhone.number)}
+            </p>
+
+            <p>
+              <strong>Service:</strong>
+              ${escapeHtml(service)}
+            </p>
+
+            <p>
+              <strong>Message:</strong><br>
+              ${escapeHtml(message.trim())}
+            </p>
+          </div>
+
+          <p>
+            Thank you for choosing StackGSB Studio.
+          </p>
+
+          <p>
+            Regards,<br>
+            <strong>StackGSB Studio</strong>
+          </p>
+
+        </div>
+      `,
+        }),
+      ]);
+
+      // ========================================
+      // EMAIL RESULT LOGS
+      // ========================================
+
+      const adminResult = emailResults[0];
+      const clientResult = emailResults[1];
+
+      if (adminResult.status === "fulfilled") {
+        console.log("✅ Admin email sent successfully");
+      } else {
+        console.error("❌ Admin email failed:", adminResult.reason);
+      }
+
+      if (clientResult.status === "fulfilled") {
+        console.log("✅ Client confirmation email sent successfully");
+      } else {
+        console.error(
+          "❌ Client confirmation email failed:",
+          clientResult.reason,
+        );
+      }
     } catch (emailError) {
-      console.error("Email sending failed:", emailError);
+      console.error("❌ Email processing error:", emailError);
     }
+
+    // ========================================
+    // SUCCESS RESPONSE
+    // ========================================
+
     return res.status(201).json({
       success: true,
-      message: "Your message has been submitted successfully",
+      message: "Your enquiry has been submitted successfully.",
       data: contact,
     });
   } catch (err) {
-    console.error(err);
+    console.error("Create contact error:", err);
 
     return res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something went wrong. Please try again.",
     });
   }
 };

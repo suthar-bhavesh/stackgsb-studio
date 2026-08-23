@@ -49,3 +49,44 @@
 .animate-arrow {
   animation: arrowFade 1.5s infinite;
 }
+
+.react-international-phone-country-selector-dropdown {
+  width: calc(37.5vw - 25px) !important;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+  padding: 12px !important;
+  box-shadow: none !important;
+  border: 1px solid gray;
+  margin-top: 7px !important;
+}
+
+@media (max-width: 768px) {
+  .react-international-phone-country-selector-dropdown {
+    width: calc(88.5vw - 25px) !important;
+  }
+}
+
+/* Country dropdown scrollbar */
+.react-international-phone-country-selector-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.react-international-phone-country-selector-dropdown::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 100%;
+}
+
+.react-international-phone-country-selector-dropdown::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 100%;
+}
+
+.react-international-phone-country-selector-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #1e3a8a;
+}
+
+/* Firefox */
+.react-international-phone-country-selector-dropdown {
+  scrollbar-width: thin;
+  scrollbar-color: #172554 #f1f5f9;
+}

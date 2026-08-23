@@ -5,14 +5,24 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
       "@assets": path.resolve(__dirname, "src/assets"),
     },
   },
+
   server: {
     port: 5173,
     host: true,
+
+    proxy: {
+      "/api": {
+        target: "https://stackgsb-studio.onrender.com",
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
 });

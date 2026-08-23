@@ -2,11 +2,17 @@ import { motion } from "framer-motion";
 import { Send, ArrowRight } from "lucide-react";
 import { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
+import {
+  CountrySelector,
+  defaultCountries,
+  parseCountry,
+} from "react-international-phone";
+import "react-international-phone/style.css";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 import StackGSBpic from "../assets/image/StackGSB.png";
 
-const EnquiryApi = import.meta.env.VITE_API_URL || "";
-console.log(EnquiryApi);
+const EnquiryApi = import.meta.env.VITE_API_URL;
 
 export function ContactUS() {
   const [formData, setFormData] = useState({
@@ -21,6 +27,8 @@ export function ContactUS() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  const [country, setcountry] = useState("in");
+  const [dialCode, setdialCode] = useState("91");
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
@@ -28,22 +36,35 @@ export function ContactUS() {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "phonenumber" ? value.replace(/\D/g, "") : value,
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setLoading(true);
     setSuccess("");
     setError("");
 
+    // Country code + entered number
+    const fullPhoneNumber = `+${dialCode}${formData.phonenumber}`;
+
+    console.log("Phone:", fullPhoneNumber);
+
+    const phoneNumber = parsePhoneNumberFromString(fullPhoneNumber);
+
+    if (!phoneNumber || !phoneNumber.isValid()) {
+      setError("Please enter a valid phone number.");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const response = await axios.post(
-        `${EnquiryApi}/api/enquiries`,
-        formData,
-      );
+      const response = await axios.post(`${EnquiryApi}/api/enquiries`, {
+        ...formData,
+        phonenumber: phoneNumber.number,
+      });
 
       if (response.data.success) {
         setSuccess(
@@ -98,7 +119,7 @@ export function ContactUS() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 bg-white overflow-hidden border border-gray-100 rounded-2xl"
+          className="grid grid-cols-1 md:grid-cols-2 bg-white overflow-hidden border border-gray-100 rounded-2xl shadow-md"
         >
           {/* Left Image */}
           <div className="relative min-h-87.5 lg:min-h-162.5 overflow-hidden bg-white">
@@ -170,9 +191,9 @@ export function ContactUS() {
                 </div>
 
                 {/* Email + Phone */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 gap-5">
                   {/* Email */}
-                  <div>
+                  <div className="min-w-0">
                     <label
                       htmlFor="email"
                       className="block text-sm font-medium text-gray-700 mb-2"
@@ -187,7 +208,7 @@ export function ContactUS() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="you@example.com"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg outline-none focus:border-blue-900 focus:ring-1 focus:ring-blue-900 transition"
+                      className="w-full h-12.5 px-4 border border-gray-200 rounded-lg outline-none focus:border-blue-900 focus:ring-1 focus:ring-blue-900 transition"
                       required
                     />
                   </div>
@@ -195,24 +216,62 @@ export function ContactUS() {
                   {/* Phone */}
                   <div>
                     <label
-                      htmlFor="phone"
+                      htmlFor="phonenumber"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
                       Phone Number
                     </label>
 
-                    <input
-                      type="tel"
-                      id="phonenumber"
-                      name="phonenumber"
-                      value={formData.phonenumber}
-                      onChange={handleChange}
-                      placeholder="+91 XXXXX XXXXX"
-                      inputMode="numeric"
-                      autoComplete="tel"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg outline-none focus:border-blue-900 focus:ring-1 focus:ring-blue-900 transition"
-                      required
-                    />
+                    <div className="flex w-full h-12.5 border border-gray-200 rounded-lg bg-white focus-within:border-blue-900 focus-within:ring-1 focus-within:ring-blue-900 transition">
+                      {/* Country Selector */}
+                      <CountrySelector
+                        selectedCountry={country}
+                        onSelect={(countryData) => {
+                          setCountry(countryData.iso2);
+                          setDialCode(countryData.dialCode);
+
+                          setFormData((prev) => ({
+                            ...prev,
+                            phonenumber: "",
+                          }));
+                        }}
+                        countries={defaultCountries}
+                        renderButtonWrapper={({ children, rootProps }) => (
+                          <button
+                            {...rootProps}
+                            type="button"
+                            className="h-full flex items-center gap-2 px-3 border-r border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-l-lg shrink-0"
+                          >
+                            {children}
+
+                            <span className="text-sm text-gray-700">
+                              +{dialCode}
+                            </span>
+                          </button>
+                        )}
+                      />
+
+                      {/* Phone Number */}
+                      <input
+                        type="tel"
+                        id="phonenumber"
+                        name="phonenumber"
+                        value={formData.phonenumber}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, "");
+
+                          setFormData((prev) => ({
+                            ...prev,
+                            phonenumber: value,
+                          }));
+                        }}
+                        placeholder="Enter phone number"
+                        inputMode="numeric"
+                        autoComplete="tel"
+                        className="flex-1 min-w-0 px-4 outline-none bg-transparent text-sm text-gray-900 placeholder:text-gray-400"
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
 
