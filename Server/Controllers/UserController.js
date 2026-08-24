@@ -170,7 +170,7 @@ export const CreateContact = async (req, res) => {
 
       // CLIENT EMAIL
       resend.emails.send({
-        from: "StackGSB Studio <noreply@stackgsbstudio.com>",
+        from: "StackGSB Studio <onboarding@resend.dev>",
 
         to: [normalizedEmail],
 
