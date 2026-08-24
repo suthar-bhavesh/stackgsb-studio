@@ -1,20 +1,22 @@
 import nodemailer from "nodemailer";
+import dns from "node:dns";
 
-console.log("=== PRODUCTION MAIL DEBUG ===");
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
-console.log("EMAIL_PASS loaded:", Boolean(process.env.EMAIL_PASS));
+// Prefer IPv4 over IPv6
+dns.setDefaultResultOrder("ipv4first");
 
 const MailTransfer = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
 
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 15000,
+  connectionTimeout: 15000,
+  greetingTimeout: 15000,
+  socketTimeout: 20000,
 });
 
 MailTransfer.verify((error) => {
@@ -24,7 +26,7 @@ MailTransfer.verify((error) => {
     console.error("Command:", error.command);
     console.error("Message:", error.message);
   } else {
-    console.log("✅ SMTP READY");
+    console.log("✅ SMTP server is ready to send emails");
   }
 });
 
