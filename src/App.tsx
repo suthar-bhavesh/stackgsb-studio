@@ -19,12 +19,9 @@ function ScrollToHash() {
   const location = useLocation();
 
   useEffect(() => {
+    // Hash nahi hai to browser ko scroll position
+    // automatically restore karne do
     if (!location.hash) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-
       return;
     }
 
@@ -44,7 +41,7 @@ function ScrollToHash() {
     return () => {
       window.clearTimeout(timer);
     };
-  }, [location.pathname, location.hash, location.key]);
+  }, [location.pathname, location.hash]);
 
   return null;
 }

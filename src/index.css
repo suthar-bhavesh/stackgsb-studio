@@ -62,7 +62,7 @@
 
 @media (max-width: 768px) {
   .react-international-phone-country-selector-dropdown {
-    width: calc(88.5vw - 25px) !important;
+    width: calc(95vw - 25px) !important;
   }
 }
 

@@ -68,7 +68,7 @@ const Testimonial = [
 export function Testimonials() {
   return (
     <section className="py-9 md:py-24 bg-background overflow-hidden">
-      <div className="container mx-auto px-2 md:px-12">
+      <div className="container mx-auto px-2 md:px-5 lg:px-12">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -87,7 +87,7 @@ export function Testimonials() {
         </motion.div>
 
         {/* Testimonials */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
           {Testimonial.map((ClientFeedback, index) => (
             <motion.div
               key={index}

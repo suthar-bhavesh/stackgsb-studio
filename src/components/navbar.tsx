@@ -37,7 +37,7 @@ export function Navbar() {
         isScrolled ? "" : "md:py-3"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-12 flex items-center justify-between border border-gray-300/70 md:rounded-full shadow-md py-3 bg-white">
+      <div className="container mx-auto px-4 md:px-5 lg:px-12 flex items-center justify-between border border-gray-300/70 md:rounded-full shadow-md py-3 bg-white">
         <div className="flex justify-between items-center w-full">
           {/* Logo */}
           <Link

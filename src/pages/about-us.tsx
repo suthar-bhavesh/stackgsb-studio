@@ -139,7 +139,7 @@ ${clientData.message}`;
             className="
       relative z-10
       container mx-auto
-       px-4 md:px-12
+       px-4 md:px-5 lg:px-12
       min-h-170 md:min-h-180
       flex items-center
     "
@@ -305,8 +305,8 @@ ${clientData.message}`;
         <section className="relative py-0 md:py-14 bg-background overflow-hidden">
           <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-blue-100/40 blur-3xl pointer-events-none" />
 
-          <div className="container mx-auto px-4 md:px-12 relative z-10">
-            <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <div className="container mx-auto px-4 md:px-5 lg:px-12 relative z-10">
+            <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
               {/* LEFT CONTENT */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
@@ -464,14 +464,15 @@ ${clientData.message}`;
 
         {/* ================= DESIGN + ENGINEERING ================= */}
         <section className="bg-muted/30 py-14">
-          <div className="container mx-auto px-4 md:px-12">
-            <div className="flex justify-between items-center flex-col md:flex-row gap-4">
+          <div className="container mx-auto px-4 md:px-5 lg:px-12">
+            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-5 items-center">
               {/* Text */}
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
+                className="flex flex-col w-full"
               >
                 <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-6">
                   Design × Engineering
@@ -485,7 +486,7 @@ ${clientData.message}`;
                   </span>
                 </h2>
 
-                <p className="mt-8 text-[14px] text-muted-foreground leading-relaxed max-w-xl text-justify">
+                <p className="mt-8 text-[14px] text-muted-foreground leading-relaxed max-w-xl md:max-w-full text-justify">
                   Great digital products require more than beautiful interfaces.
                   They need thoughtful architecture, clean development, strong
                   performance, and a clear understanding of the people using
@@ -499,32 +500,32 @@ ${clientData.message}`;
                 whileInView={{ opacity: 1, x: 0, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
-                className="overflow-hidden rounded-2xl w-fit h-fit flex"
+                className="overflow-hidden rounded-2xl w-fit h-fit flex md:w-full md:h-full"
               >
                 <img
                   src={StackGSBCretivity}
                   alt="Design and Creativity"
-                  className="w-full h-full md:w-150 md:h-150 shadow-2xl"
+                  className="w-full h-full md:w-full md:h-full lg:h-full lg:w-full 2xl:w-150 2xl:h-150 shadow-2xl"
                 />
               </motion.div>
             </div>
           </div>
         </section>
 
-        <section className="relative overflow-hidden md:py-28">
-          <div className="relative container mx-auto px-4 md:px-12 mb-14">
+        <section className="relative overflow-hidden">
+          <div className="relative container mx-auto px-4 md:px-5 lg:px-12 mb-14">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="flex flex-col gap-6 justify-center max-w-5xl mx-auto text-center bg-white rounded-2xl p-5 md:p-12 shadow-2xl"
+              className="flex flex-col gap-6 justify-center max-w-5xl mx-auto text-center bg-white rounded-2xl p-5 md:p-5 lg:p-12 shadow-2xl"
             >
               <h3 className="font-bold text-2xl">
                 Why Choose StackGSB Studio?
               </h3>
 
-              <p className="text-justify text-[14px]">
+              <p className="text-justify text-[14px] md:text-[16px]">
                 At StackGSB Studio, we believe great digital solutions come from
                 the right balance of creativity, technology, and a clear
                 understanding of business goals. We don't just build websites or
@@ -535,7 +536,7 @@ ${clientData.message}`;
                 project, and developing solutions that are easy to use,
                 maintain, and scale as your business grows.
               </p>
-              <p className="text-justify text-[14px]">
+              <p className="text-justify text-[14px] md:text-[16px]">
                 From modern websites and responsive web applications to
                 e-commerce platforms, custom software, UI/UX design, and ongoing
                 technical support, we focus on delivering quality at every stage

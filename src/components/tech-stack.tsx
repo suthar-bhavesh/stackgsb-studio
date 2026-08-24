@@ -20,7 +20,7 @@ const tech = [
 export function TechStack() {
   return (
     <section className="pt-9 md:pt-24 bg-background overflow-hidden">
-      <div className="container mx-auto px-2 md:px-12 text-center mb-12">
+      <div className="container mx-auto px-2 md:px-5 lg:px-12 text-center mb-12">
         <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
           Tech &nbsp;<span className="text-primary">Stack</span>
         </h2>

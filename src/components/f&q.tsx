@@ -44,7 +44,7 @@ export function FAQ() {
 
   return (
     <section>
-      <div className="container mx-auto px-2 md:px-12">
+      <div className="container mx-auto px-2 md:px-5 lg:px-12">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

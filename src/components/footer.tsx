@@ -27,8 +27,8 @@ function SocialIcons() {
 export function Footer() {
   return (
     <footer className="bg-background pt-9 md:pt-24 border-t border-gray-500/50">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 md:gap-12 gap-6 mb-8 md:mb-16">
+      <div className="container mx-auto px-6 md:px-5 lg:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-1 md:gap-6 lg:gap-12 gap-6 mb-8 md:mb-16 lg:grid-cols-4">
           <div className="flex flex-col gap-4">
             <div>
               <Link to="/">
@@ -52,7 +52,7 @@ export function Footer() {
                 </div>
               </Link>
             </div>
-            <p className="text-muted-foreground md:max-w-xs md:mb-6 text-justify text-[14px]">
+            <p className="text-muted-foreground md:w-full lg:max-w-xs md:mb-0 lg:mb-6 text-justify text-[14px]">
               A boutique digital agency specializing in the design and
               development of modern, high-performing web solutions for ambitious
               businesses. We design, develop, and deliver exceptional digital
@@ -63,11 +63,7 @@ export function Footer() {
             <h4 className="font-bold text-foreground mb-4 text-xl">Services</h4>
             <ul className="flex flex-col gap-2 text-[14px]">
               <li className="group flex flex-col items-start w-fit">
-                UI/UX Design
-                <span className="h-0.5 w-0 bg-blue-800 transition-all duration-300 group-hover:w-full"></span>
-              </li>
-              <li className="group flex flex-col items-start w-fit">
-                Full-Stack Development
+                Web Development
                 <span className="h-0.5 w-0 bg-blue-800 transition-all duration-300 group-hover:w-full"></span>
               </li>
               <li className="group flex flex-col items-start w-fit">
@@ -75,15 +71,7 @@ export function Footer() {
                 <span className="h-0.5 w-0 bg-blue-800 transition-all duration-300 group-hover:w-full"></span>
               </li>
               <li className="group flex flex-col items-start w-fit">
-                System Architecture
-                <span className="h-0.5 w-0 bg-blue-800 transition-all duration-300 group-hover:w-full"></span>
-              </li>
-              <li className="group flex flex-col items-start w-fit">
-                Performance Optimization
-                <span className="h-0.5 w-0 bg-blue-800 transition-all duration-300 group-hover:w-full"></span>
-              </li>
-              <li className="group flex flex-col items-start w-fit">
-                SEO & Digital Marketing
+                Digital Marketing
                 <span className="h-0.5 w-0 bg-blue-800 transition-all duration-300 group-hover:w-full"></span>
               </li>
             </ul>
@@ -235,7 +223,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="pt-5 pb-5 border-t border-gray-500/50">
+      <div className="pt-5 pb-5 border-t border-gray-500/50 md:p-3.5">
         <div className="container mx-auto flex md:justify-between items-center flex-col md:flex-row">
           <p className="text-sm text-muted-foreground text-gray-700/50">
             &copy; {new Date().getFullYear()} StackGSB Studio. All rights

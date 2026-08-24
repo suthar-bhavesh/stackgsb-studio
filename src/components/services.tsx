@@ -44,7 +44,7 @@ const itemVariants = {
 export function Services() {
   return (
     <section id="services" className="pt-9 md:pt-24 bg-secondary/20 relative">
-      <div className="container mx-auto px-2 md:px-12 relative z-10">
+      <div className="container mx-auto px-2 md:px-5 lg:px-12 relative z-10">
         <motion.div
           className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8"
           initial={{ opacity: 0, y: 20 }}
@@ -68,7 +68,7 @@ export function Services() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6"
         >
           {services.map((service, index) => (
             <motion.div
