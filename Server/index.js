@@ -32,12 +32,6 @@ DbConnection();
 // Middleware
 // =========================
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:8081",
-  "https://stackgsb-studio.onrender.com",
-];
-
 app.use(
   cors({
     origin: "http://localhost:5173",
