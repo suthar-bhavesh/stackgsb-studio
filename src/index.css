@@ -51,7 +51,7 @@
 }
 
 .react-international-phone-country-selector-dropdown {
-  width: calc(37.5vw - 25px) !important;
+  width: calc(35.5vw - 25px) !important;
   max-height: 300px !important;
   overflow-y: auto !important;
   padding: 12px !important;
@@ -63,6 +63,12 @@
 @media (max-width: 768px) {
   .react-international-phone-country-selector-dropdown {
     width: calc(95vw - 25px) !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .react-international-phone-country-selector-dropdown {
+    width: calc(41vw - 25px) !important;
   }
 }
 

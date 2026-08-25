@@ -175,9 +175,8 @@ export function ContactUS() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="
-    grid grid-cols-1
-    2xl:grid-cols-[45%_55%]
+          className=" grid grid-cols-1 2xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1
+    
     bg-white
     overflow-hidden
     border border-gray-100

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 
+import RahulSharma from "../assets/image/rahul-sharma.png";
 import NehaShah from "../assets/image/neha-shah.png";
 import SnehaJoshi from "../assets/image/Sneha-Joshi.png";
 import PriyaDesai from "../assets/image/Priya-Desai.png";
@@ -12,6 +13,7 @@ import VikramMehta from "../assets/image/Vikram-Mehta.png";
 const Testimonial = [
   {
     name: "Rahul Sharma",
+    image: RahulSharma,
     description:
       "Working with StackGSB Studio was a great experience from the very beginning. They took the time to understand our business, our customers, and what we wanted our website to achieve before starting the development. The team transformed our ideas into a clean, modern, and responsive website that looks professional across all devices. We especially appreciated their attention to detail and willingness to incorporate our feedback throughout the process. Everything from the design and navigation to the overall user experience was thoughtfully handled. The final website has given our business a much stronger online presence and has made it much easier for customers to understand what we offer. We are extremely happy with the final result.",
   },
