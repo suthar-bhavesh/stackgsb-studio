@@ -8,8 +8,6 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 import StackGSBpic from "../assets/image/StackGSB.png";
 
-const EnquiryApi = import.meta.env.VITE_API_URL;
-
 export function ContactUS() {
   const [formData, setFormData] = useState({
     name: "",
@@ -52,66 +50,12 @@ export function ContactUS() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setLoading(true);
     setSuccess("");
     setErrors("");
 
-    const newErrors = {
-      name: "",
-      email: "",
-      phonenumber: "",
-      service: "",
-      message: "",
-    };
-
-    // Name Validation
-    if (!formData.name.trim()) {
-      newErrors.name = "Please enter your full name.";
-    }
-
-    // Email Validation
-    if (!formData.email.trim()) {
-      newErrors.email = "Please enter your email address.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-
-    // Phone Validation
-    const fullPhoneNumber = `+${dialCode}${formData.phonenumber}`;
-    const phoneNumber = parsePhoneNumberFromString(fullPhoneNumber);
-
-    if (!formData.phonenumber.trim()) {
-      newErrors.phonenumber = "Please enter your phone number.";
-    } else if (!phoneNumber || !phoneNumber.isValid()) {
-      newErrors.phonenumber = "Please enter a valid phone number.";
-    }
-
-    // Service Validation
-    if (!formData.service) {
-      newErrors.service = "Please select a service.";
-    }
-
-    // Message Validation
-    if (!formData.message.trim()) {
-      newErrors.message = "Please enter your message.";
-    }
-
-    setfieldErrors(newErrors);
-
-    const hasErrors = Object.values(newErrors).some(
-      (errorMessage) => errorMessage !== "",
-    );
-
-    if (hasErrors) {
-      return;
-    }
-
-    setLoading(true);
-
     try {
-      const response = await axios.post(`${EnquiryApi}/api/enquiries`, {
-        ...formData,
-        phonenumber: phoneNumber!.number,
-      });
+      const response = await axios.post("/api/enquiries", formData);
 
       if (response.data.success) {
         setSuccess(
@@ -125,22 +69,18 @@ export function ContactUS() {
           service: "",
           message: "",
         });
-
-        setfieldErrors({
-          name: "",
-          email: "",
-          phonenumber: "",
-          service: "",
-          message: "",
-        });
       }
     } catch (err) {
       console.error("Contact form error:", err);
 
-      setErrors(
-        (err as any).response?.data?.message ||
-          "Something went wrong. Please try again.",
-      );
+      if (axios.isAxiosError(err)) {
+        setErrors(
+          err.response?.data?.message ||
+            "Something went wrong. Please try again.",
+        );
+      } else {
+        setErrors("Something went wrong. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
