@@ -465,7 +465,6 @@ export function ContactUS() {
                     Website Development
                   </option>
                   <option value="Graphic Design">Graphic Design</option>
-                  <option value="UI/UX Design">UI/UX Design</option>
                   <option value="Digital Marketing">Digital Marketing</option>
                   <option value="Other">Other</option>
                 </select>
