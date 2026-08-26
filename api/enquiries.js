@@ -1,5 +1,5 @@
 import connectDB from "../lib/mongodb.js";
-import UserModels from "../models/UserModels.js";
+import UserModels from "../Models/UserModels.js";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 // ==========================================
