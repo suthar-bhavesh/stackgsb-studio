@@ -50,19 +50,160 @@ export function ContactUS() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setLoading(true);
     setSuccess("");
     setErrors("");
 
+    // ==========================================
+    // Field Errors
+    // ==========================================
+
+    const newErrors = {
+      name: "",
+      email: "",
+      phonenumber: "",
+      service: "",
+      message: "",
+    };
+
+    // ==========================================
+    // Normalize values
+    // ==========================================
+
+    const normalizedName = formData.name.trim();
+    const normalizedEmail = formData.email.trim().toLowerCase();
+    const normalizedMessage = formData.message.trim();
+
+    // ==========================================
+    // 1. Name Validation
+    // ==========================================
+
+    if (!normalizedName) {
+      newErrors.name = "Full name is required.";
+    } else if (normalizedName.length < 2) {
+      newErrors.name = "Name must contain at least 2 characters.";
+    } else if (normalizedName.length > 80) {
+      newErrors.name = "Name cannot exceed 80 characters.";
+    } else if (!/^[\p{L}\p{M} .'-]+$/u.test(normalizedName)) {
+      newErrors.name = "Please enter a valid name.";
+    }
+
+    // ==========================================
+    // 2. Email Validation
+    // ==========================================
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!normalizedEmail) {
+      newErrors.email = "Email address is required.";
+    } else if (!emailRegex.test(normalizedEmail)) {
+      newErrors.email = "Please enter a valid email address.";
+    } else if (normalizedEmail.length > 254) {
+      newErrors.email = "Email address is too long.";
+    }
+
+    // ==========================================
+    // 3. Phone Validation
+    // ==========================================
+
+    let validPhoneNumber = "";
+
+    if (!formData.phonenumber.trim()) {
+      newErrors.phonenumber = "Phone number is required.";
+    } else {
+      try {
+        const fullPhoneNumber = `+${dialCode}${formData.phonenumber}`;
+
+        const parsedPhone = parsePhoneNumberFromString(fullPhoneNumber);
+
+        if (!parsedPhone || !parsedPhone.isValid()) {
+          newErrors.phonenumber = "Please enter a valid phone number.";
+        } else {
+          validPhoneNumber = parsedPhone.number;
+        }
+      } catch {
+        newErrors.phonenumber = "Please enter a valid phone number.";
+      }
+    }
+
+    // ==========================================
+    // 4. Service Validation
+    // ==========================================
+
+    const allowedServices = [
+      "Website Development",
+      "Graphic Design",
+      "Digital Marketing",
+      "Other",
+    ];
+
+    if (!formData.service) {
+      newErrors.service = "Please select a service.";
+    } else if (!allowedServices.includes(formData.service)) {
+      newErrors.service = "Please select a valid service.";
+    }
+
+    // ==========================================
+    // 5. Message Validation
+    // ==========================================
+
+    if (!normalizedMessage) {
+      newErrors.message = "Message is required.";
+    } else if (normalizedMessage.length < 10) {
+      newErrors.message = "Message must contain at least 10 characters.";
+    } else if (normalizedMessage.length > 2000) {
+      newErrors.message = "Message cannot exceed 2000 characters.";
+    }
+
+    // ==========================================
+    // Set field errors
+    // ==========================================
+
+    setfieldErrors(newErrors);
+
+    // Check if any validation failed
+    const hasErrors = Object.values(newErrors).some((error) => error !== "");
+
+    if (hasErrors) {
+      return;
+    }
+
+    // ==========================================
+    // API Request starts here
+    // ==========================================
+
+    setLoading(true);
+
     try {
-      const response = await axios.post("/api/enquiries", formData);
+      const payload = {
+        name: normalizedName,
+        email: normalizedEmail,
+        phonenumber: validPhoneNumber,
+        service: formData.service,
+        message: normalizedMessage,
+      };
+
+      const response = await axios.post("/api/enquiries", payload);
 
       if (response.data.success) {
         setSuccess(
           "Thank you! Your enquiry has been submitted successfully. We'll get back to you soon.",
         );
 
+        // Reset form
         setFormData({
+          name: "",
+          email: "",
+          phonenumber: "",
+          service: "",
+          message: "",
+        });
+
+        // Reset country
+        setcountry("in");
+        setdialCode("91");
+
+        // Clear field errors
+        setfieldErrors({
           name: "",
           email: "",
           phonenumber: "",
@@ -375,6 +516,12 @@ export function ContactUS() {
 
               {/* Service */}
               <div className="w-full min-w-0">
+                <label
+                  htmlFor="service"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Service
+                </label>
                 <select
                   id="service"
                   name="service"

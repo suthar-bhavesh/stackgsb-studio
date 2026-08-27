@@ -306,7 +306,7 @@ ${clientData.message}`;
           <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-blue-100/40 blur-3xl pointer-events-none" />
 
           <div className="container mx-auto px-4 md:px-5 lg:px-12 relative z-10">
-            <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+            <div className="grid lg:grid-cols-5 2xl:grid-cols-12 gap-12 lg:gap-16 items-start">
               {/* LEFT CONTENT */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
@@ -465,14 +465,14 @@ ${clientData.message}`;
         {/* ================= DESIGN + ENGINEERING ================= */}
         <section className="bg-muted/30 py-14">
           <div className="container mx-auto px-4 md:px-5 lg:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-5 items-center">
+            <div className="flex flex-col justify-between md:flex-row lg:flex-row 2xl:flex-row gap-7 items-center">
               {/* Text */}
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
-                className="flex flex-col w-full"
+                className="flex flex-col w-full md:max-w-125"
               >
                 <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-6">
                   Design × Engineering
@@ -500,7 +500,7 @@ ${clientData.message}`;
                 whileInView={{ opacity: 1, x: 0, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
-                className="overflow-hidden rounded-2xl w-fit h-fit flex md:w-full md:h-full"
+                className="overflow-hidden rounded-2xl w-fit h-fit flex md:w-full md:h-full 2xl:w-150 2xl:h-150"
               >
                 <img
                   src={StackGSBCretivity}
