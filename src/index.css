@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* ========================================
+   ANIMATIONS
+======================================== */
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -11,6 +15,7 @@
 
 @utility no-appearance {
   -moz-appearance: textfield;
+
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -32,6 +37,7 @@
     opacity: 1;
   }
 }
+
 @keyframes arrowFade {
   0% {
     opacity: 0;
@@ -43,12 +49,18 @@
     opacity: 0;
   }
 }
+
 .animate-wheel {
   animation: wheelMove 1.5s infinite;
 }
+
 .animate-arrow {
   animation: arrowFade 1.5s infinite;
 }
+
+/* ========================================
+   INTERNATIONAL PHONE DROPDOWN
+======================================== */
 
 .react-international-phone-country-selector-dropdown {
   width: calc(35.5vw - 25px) !important;
@@ -60,6 +72,7 @@
   margin-top: 7px !important;
 }
 
+/* Original responsive rules preserved */
 @media (max-width: 768px) {
   .react-international-phone-country-selector-dropdown {
     width: calc(95vw - 25px) !important;
@@ -72,27 +85,110 @@
   }
 }
 
-/* Country dropdown scrollbar */
+/* ========================================
+   STACKGSB STUDIO GLOBAL SCROLLBAR
+   Blue + Navy Blue Theme
+======================================== */
+
+:root {
+  --scrollbar-track: #eff6ff;
+  --scrollbar-thumb: #2563eb;
+  --scrollbar-hover: #1e40af;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #1e40af);
+  border-radius: 12px;
+  border: 2px solid var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track);
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #eff6ff;
+}
+
+/* ========================================
+   PORTFOLIO MODAL SCROLLBAR
+======================================== */
+
+.portfolio-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 #071b49;
+}
+
+.portfolio-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.portfolio-scroll::-webkit-scrollbar-track {
+  background: #071b49;
+  border-radius: 12px;
+}
+
+.portfolio-scroll::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border: 2px solid #071b49;
+  border-radius: 12px;
+}
+
+.portfolio-scroll::-webkit-scrollbar-thumb:hover {
+  background: #60a5fa;
+}
+
+/* ========================================
+   COUNTRY DROPDOWN SCROLLBAR
+======================================== */
+
+.react-international-phone-country-selector-dropdown {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #eff6ff;
+}
+
 .react-international-phone-country-selector-dropdown::-webkit-scrollbar {
   width: 6px;
 }
 
 .react-international-phone-country-selector-dropdown::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 100%;
+  background: #eff6ff;
+  border-radius: 12px;
 }
 
 .react-international-phone-country-selector-dropdown::-webkit-scrollbar-thumb {
-  background: #000;
-  border-radius: 100%;
+  background: #2563eb;
+  border-radius: 12px;
 }
 
 .react-international-phone-country-selector-dropdown::-webkit-scrollbar-thumb:hover {
-  background: #1e3a8a;
+  background: #1e40af;
 }
 
-/* Firefox */
-.react-international-phone-country-selector-dropdown {
-  scrollbar-width: thin;
-  scrollbar-color: #172554 #f1f5f9;
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

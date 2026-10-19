@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import AboutUs from "@/pages/about-us";
+import Portfolio from "./pages/Portfolio";
 
 import { Navbar } from "./components/navbar";
 
@@ -57,6 +58,7 @@ function AppRouter() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/portfolio" element={<Portfolio />} />
       </Routes>
     </>
   );

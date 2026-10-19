@@ -1,4 +1,4 @@
-import logoPath from "../assets/image/favicon.png";
+import logoPath from "/image/favicon.png";
 import { Link } from "react-router-dom";
 import {
   FaInstagram,

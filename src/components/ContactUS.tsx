@@ -6,7 +6,7 @@ import { CountrySelector, defaultCountries } from "react-international-phone";
 import "react-international-phone/style.css";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 
-import StackGSBpic from "../assets/image/StackGSB.png";
+import StackGSBpic from "/image/StackGSB.png";
 
 export function ContactUS() {
   const [formData, setFormData] = useState({

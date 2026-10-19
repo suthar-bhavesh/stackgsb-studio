@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
 
-import RahulSharma from "../assets/image/rahul-sharma.png";
-import NehaShah from "../assets/image/neha-shah.png";
-import SnehaJoshi from "../assets/image/Sneha-Joshi.png";
-import PriyaDesai from "../assets/image/Priya-Desai.png";
-import RohanShah from "../assets/image/Rohan-Shah.png";
-import AmitPatel from "../assets/image/Amit-Patel.png";
-import KaranPatel from "../assets/image/Karan-Patel.png";
-import MehulDesai from "../assets/image/Mehul-Desai.png";
-import VikramMehta from "../assets/image/Vikram-Mehta.png";
+import RahulSharma from "/image/rahul-sharma.png";
+import NehaShah from "/image/neha-shah.png";
+import SnehaJoshi from "/image/Sneha-Joshi.png";
+import PriyaDesai from "/image/Priya-Desai.png";
+import RohanShah from "/image/Rohan-Shah.png";
+import AmitPatel from "/image/Amit-Patel.png";
+import KaranPatel from "/image/Karan-Patel.png";
+import MehulDesai from "/image/Mehul-Desai.png";
+import VikramMehta from "/image/Vikram-Mehta.png";
 
 const Testimonial = [
   {

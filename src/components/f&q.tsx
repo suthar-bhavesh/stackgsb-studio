@@ -38,79 +38,83 @@ const faq = [
 export function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const toggleFAQ = (index: number | SetStateAction<null>) => {
-    setActiveIndex(activeIndex === index ? null : index);
+  const toggleFAQ = (index) => {
+    setActiveIndex((previous) => (previous === index ? null : index));
   };
 
   return (
-    <section>
-      <div className="container mx-auto px-2 md:px-5 lg:px-12">
-        {/* Heading */}
+    <section id="faq" className="bg-white py-12 md:py-24">
+      <div className="container mx-auto px-4 md:px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-14"
+          className="mb-12 text-center"
         >
-          <p className="text-sm uppercase tracking-[0.25em] text-gray-500 mb-4">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700">
             FAQ
           </p>
 
-          <h2 className="text-[18px] md:text-5xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-5xl">
             Frequently Asked Questions
           </h2>
 
-          <p className="mt-5 text-gray-600 max-w-2xl mx-auto leading-7 md:text-[18px] text-[14px]">
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-600 md:text-base">
             Everything you need to know before starting your project with
             StackGSB Studio.
           </p>
         </motion.div>
 
-        {/* FAQ */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col mx-auto gap-2.5 max-w-244"
-        >
+        <div className="mx-auto flex max-w-4xl flex-col gap-3">
           {faq.map((item, index) => {
             const isOpen = activeIndex === index;
 
             return (
               <div
-                key={index}
-                className="border-2 border-gray-200 bg-white rounded-2xl"
+                key={item.question}
+                className={`overflow-hidden rounded-2xl border bg-white transition-colors duration-300 ${
+                  isOpen
+                    ? "border-blue-400 shadow-sm"
+                    : "border-gray-200 hover:border-blue-200"
+                }`}
               >
-                <button
-                  type="button"
-                  onClick={() => toggleFAQ(index)}
-                  aria-expanded={isOpen}
-                  className="w-full flex justify-between gap-6 p-4"
-                >
-                  <h3 className="text-[18px] font-semibold text-gray-900 text-left">
-                    {item.question}
-                  </h3>
+                <h3>
+                  <button
+                    type="button"
+                    id={`faq-question-${index}`}
+                    onClick={() => toggleFAQ(index)}
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-answer-${index}`}
+                    className="flex w-full items-center justify-between gap-5 p-5 text-left md:p-6"
+                  >
+                    <span className="text-base font-semibold text-gray-900 md:text-lg">
+                      {item.question}
+                    </span>
 
-                  <ChevronDown
-                    size={22}
-                    className={`shrink-0 transition-transform duration-300 text-blue-900 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
+                    <ChevronDown
+                      size={22}
+                      aria-hidden="true"
+                      className={`shrink-0 text-blue-800 transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                </h3>
 
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
+                      id={`faq-answer-${index}`}
+                      role="region"
+                      aria-labelledby={`faq-question-${index}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="overflow-hidden px-4"
+                      className="overflow-hidden"
                     >
-                      <p className="md:pb-6 md:pr-10 text-gray-600 leading-5 text-[14px] pb-4">
+                      <p className="px-5 pb-5 text-sm leading-7 text-gray-600 md:px-6 md:pb-6 md:text-base">
                         {item.answer}
                       </p>
                     </motion.div>
@@ -119,8 +123,10 @@ export function FAQ() {
               </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
+
+export default FAQ;

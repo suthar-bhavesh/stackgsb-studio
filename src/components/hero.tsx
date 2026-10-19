@@ -1,88 +1,117 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Code, PenTool, Rocket } from "lucide-react";
-import BannerVideo from "../assets/Video/banner-video.mp4";
+import { Link } from "react-router-dom";
+import BannerVideo from "/Video/banner-video.mp4";
+
+const services = [
+  { icon: PenTool, label: "Graphic Design" },
+  { icon: Code, label: "Web Development" },
+  { icon: Rocket, label: "Digital Marketing" },
+];
 
 export function Hero() {
   return (
     <section
-      className="relative flex items-center justify-center overflow-hidden h-full w-full"
       id="hero"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-blue-950"
     >
-      {/* Background Video */}
+      {/* Background video */}
       <motion.video
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.8 }}
         src={BannerVideo}
         autoPlay
-        loop
         muted
+        loop
         playsInline
-        className="
-    absolute inset-0
-    w-full h-full
-    object-cover
-    object-[65%_center]
-    md:object-center
-  "
+        preload="metadata"
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover object-[65%_center] md:object-center"
       />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/70 z-1" />
+      {/* Overlay */}
+      <div className="absolute inset-0 z-1 bg-black/70" />
 
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 pointer-events-none z-2">
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `radial-gradient(circle at center, white 1px, transparent 1px)`,
-            backgroundSize: "32px 32px",
-          }}
-        />
-      </div>
+      {/* Grid pattern */}
+      <div
+        className="pointer-events-none absolute inset-0 z-2 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, white 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
 
-      <div className="container mx-auto px-3 md:px-5 lg:px-12 relative z-10 flex flex-col items-center text-center m-57">
+      {/* Content */}
+      <div className="container relative z-10 mx-auto flex flex-col items-center px-4 py-32 text-center md:px-6 lg:px-12">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white max-w-5xl leading-[1.1]"
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="max-w-5xl text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl md:text-7xl lg:text-8xl"
         >
           Design. Develop.
-          <span className="text-blue-400">Deliver.</span>
+          <span className="block text-blue-400">Deliver.</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-6 text-[14px] text-muted-foreground max-w-2xl font-normal text-white"
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mt-6 max-w-2xl text-sm leading-7 text-gray-200 md:text-lg"
         >
-          StackGSB Studio helps businesses build modern, fast and scalable
-          digital experiences through professional web development, UI/UX design
-          and search engine optimization.
+          StackGSB Studio helps businesses grow their digital presence through
+          modern web development, creative graphic design, and results-focused
+          digital marketing.
         </motion.p>
 
+        {/* CTA buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="mt-8 flex flex-wrap justify-center gap-4"
+        >
+          <a
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+
+              document.getElementById("contact")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }}
+            className="inline-flex items-center gap-3 rounded-full bg-blue-600 px-7 py-4 font-semibold text-white transition-all hover:bg-blue-700"
+          >
+            Start a Project
+            <ArrowRight size={19} />
+          </a>
+
+          <Link
+            to="/#services"
+            className="rounded-full border border-white/50 px-7 py-3 font-semibold text-white transition hover:bg-white hover:text-blue-950"
+          >
+            Explore Services
+          </Link>
+        </motion.div>
+
+        {/* Services */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="mt-24 grid grid-cols-3 gap-4 md:gap-16 border-t border-gray-800 pt-10 border-b pb-10"
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="mt-16 grid w-full max-w-3xl grid-cols-3 gap-3 border-y border-white/20 py-8 md:mt-20 md:gap-12"
         >
-          {[
-            { icon: PenTool, label: "Graphic Design" },
-            { icon: Code, label: "Web Development" },
-            { icon: Rocket, label: "SEO Optimization" },
-          ].map((item, i) => (
-            <div key={i} className="flex flex-col items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gray-700/50 flex items-center justify-center text-primary group">
-                <item.icon
-                  size={20}
-                  className="group-hover:text-blue-500 transition duration-150 ease-in text-white"
-                />
+          {services.map(({ icon: Icon, label }) => (
+            <div key={label} className="flex flex-col items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white">
+                <Icon size={20} />
               </div>
-              <span className="text-[13px] font-medium text-muted-foreground text-white">
-                {item.label}
+
+              <span className="text-center text-xs font-medium text-white md:text-sm">
+                {label}
               </span>
             </div>
           ))}
