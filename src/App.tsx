@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
@@ -12,6 +10,10 @@ import AboutUs from "@/pages/about-us";
 import Portfolio from "./pages/Portfolio";
 
 import { Navbar } from "./components/navbar";
+import ReactGA from "react-ga4";
+
+// Google Analytics Initialize
+ReactGA.initialize("G-M8986M1X6Y");
 
 const queryClient = new QueryClient();
 
@@ -20,8 +22,6 @@ function ScrollToHash() {
   const location = useLocation();
 
   useEffect(() => {
-    // Hash nahi hai to browser ko scroll position
-    // automatically restore karne do
     if (!location.hash) {
       return;
     }
@@ -48,6 +48,16 @@ function ScrollToHash() {
 }
 
 function AppRouter() {
+  const location = useLocation();
+
+  // Google Analytics Tracking Code for SPA Pages
+  useEffect(() => {
+    ReactGA.send({
+      hitType: "pageview",
+      page: location.pathname + location.search,
+    });
+  }, [location]);
+
   return (
     <>
       <ScrollToHash />
