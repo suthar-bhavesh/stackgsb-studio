@@ -789,7 +789,11 @@ export default function Portfolio() {
                         <ProjectImage
                           src={project.image}
                           alt={`${project.title} project preview`}
-                          className={`h-full w-full ${project.featured ? "object-cover object-top" : "object-contain"} transition-transform duration-700 group-hover:scale-[1.035]`}
+                          className={`h-full w-full ${
+                            project.featured
+                              ? "object-cover object-top"
+                              : "object-cover object-center"
+                          } transition-transform duration-700 group-hover:scale-[1.035]`}
                         />
                         {!project.featured && (
                           <span className="pointer-events-none absolute bottom-2 right-2 rounded-md border border-blue-100 bg-white/90 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-blue-800 shadow-sm backdrop-blur">
