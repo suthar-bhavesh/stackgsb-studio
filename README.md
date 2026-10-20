@@ -1,63 +1,88 @@
-# StackGSB Studio — Website
+# StackGSB Studio
 
-## Setup Instructions
+### Design. Develop. Deliver.
 
-### Requirements
-- Node.js 18+ (download from https://nodejs.org)
-- npm (comes with Node.js)
+**Building digital experiences that help businesses grow.**
 
-### Steps
+StackGSB Studio is a digital solutions brand focused on helping startups, entrepreneurs, and growing businesses establish a strong online presence through modern web development, creative graphic design, and digital marketing.
 
-1. **Rename config files** (one-time setup):
-   - Rename `package.standalone.json` → `package.json`
-   - Rename `vite.standalone.config.ts` → `vite.config.ts`
-   - Rename `tsconfig.standalone.json` → `tsconfig.json`
+🌐 **Website:** https://stackgsb-studio.vercel.app/
 
-2. **Install dependencies:**
-   ```
-   npm install
-   ```
+---
 
-3. **Start the development server:**
-   ```
-   npm run dev
-   ```
-   Open http://localhost:5173 in your browser.
+## About Us
 
-4. **Build for production:**
-   ```
-   npm run build
-   ```
-   Output goes to the `dist/` folder — upload this to any web host.
+At StackGSB Studio, we combine creativity, technology, and business-focused thinking to create digital solutions that are practical, modern, and user-friendly.
 
-## Project Structure
+Our goal is to help businesses strengthen their digital presence, communicate their brand effectively, and connect with their target audience.
 
-```
-src/
-├── assets/               ← logo and images
-├── components/
-│   ├── ui/               ← shadcn/ui base components
-│   ├── navbar.tsx
-│   ├── hero.tsx
-│   ├── services.tsx
-│   ├── work.tsx
-│   ├── process.tsx
-│   ├── tech-stack.tsx
-│   ├── cta.tsx
-│   └── footer.tsx
-├── pages/
-│   ├── home.tsx          ← main landing page
-│   └── not-found.tsx
-├── hooks/
-├── lib/
-├── App.tsx
-├── main.tsx
-└── index.css             ← global styles & theme
-```
+## Our Services
 
-## Customization
+### 💻 Web Development
+- Responsive website development
+- Business websites and landing pages
+- Modern UI implementation
+- Website improvements and maintenance
+- Performance and user experience enhancements
 
-- **Logo**: Replace `src/assets/stackgsb_logo_transparent.png`
-- **Colors**: Edit CSS variables in `src/index.css` (`:root` block)
-- **Content**: Edit text directly in each component file under `src/components/`
-- **Fonts**: Change the Google Fonts `@import` at the top of `src/index.css`
+### 🎨 Graphic Design
+- Social media creatives
+- Brand visuals and marketing graphics
+- Promotional designs
+- Digital content design
+
+### 📈 Digital Marketing
+- Digital marketing strategy
+- Social media marketing support
+- Search engine optimization (SEO) support
+- Online brand visibility
+- Content and campaign planning
+
+## Why StackGSB Studio?
+
+- **Business-Focused:** Solutions aligned with business goals.
+- **Modern & Responsive:** Experiences designed for different screen sizes.
+- **User-Centered:** A focus on usability and clarity.
+- **Attention to Detail:** Careful execution across design and development.
+- **Reliable Delivery:** Clear communication and a practical approach.
+- **Growth-Oriented:** Digital solutions designed to support long-term growth.
+
+## Our Approach
+
+1. **Understand** the business, goals, and requirements.
+2. **Plan** the right digital solution.
+3. **Design** a clear and engaging user experience.
+4. **Develop** responsive and functional digital experiences.
+5. **Deliver** and improve based on business needs.
+
+## Tech Stack
+
+Our development toolkit includes technologies such as:
+
+- HTML5
+- CSS3
+- JavaScript
+- React.js
+- Tailwind CSS
+- Bootstrap
+- Node.js
+- Express.js
+- MongoDB
+- Git & GitHub
+
+*Technologies used depend on the requirements of each project.*
+
+## Connect With Us
+
+- **Website:** https://stackgsb-studio.vercel.app/
+- **Instagram:** https://www.instagram.com/stackgsbstudio/
+- **Email:** stackgsbstudio@gmail.com
+
+For project enquiries, collaborations, or digital solutions, feel free to get in touch.
+
+---
+
+<p align="center">
+  <strong>StackGSB Studio</strong><br>
+  Design. Develop. Deliver.
+</p>
