@@ -16,3 +16,20 @@ export function trackContactClick(method: "whatsapp" | "email" | "phone") {
     page_path: window.location.pathname,
   });
 }
+
+export function trackLeadGenerated() {
+  if (typeof window === "undefined") return;
+
+  window.gtag?.("event", "generate_lead", {
+    currency: "INR",
+    page_path: window.location.pathname,
+  });
+}
+
+export function trackFormStart() {
+  if (typeof window === "undefined") return;
+
+  window.gtag?.("event", "form_start", {
+    page_path: window.location.pathname,
+  });
+}

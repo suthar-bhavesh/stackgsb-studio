@@ -7,6 +7,7 @@ import "react-international-phone/style.css";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 import StackGSBpic from "/image/StackGSB.png";
+import { trackLeadGenerated, trackFormStart } from "../lib/analytics";
 
 export function ContactUS() {
   const [formData, setFormData] = useState({
@@ -185,6 +186,8 @@ export function ContactUS() {
       const response = await axios.post("/api/enquiries", payload);
 
       if (response.data.success) {
+        trackLeadGenerated();
+
         setSuccess(
           "Thank you! Your enquiry has been submitted successfully. We'll get back to you soon.",
         );
@@ -332,7 +335,13 @@ export function ContactUS() {
             )}
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+
+            <form
+              onSubmit={handleSubmit}
+              onFocusCapture={() => trackFormStart()}
+              className="space-y-5"
+              noValidate
+            >
               {/* Full Name */}
               <div className="flex flex-col w-full">
                 <label
