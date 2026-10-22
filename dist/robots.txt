@@ -1,0 +1,5 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://stackgsb-studio.vercel.app/sitemap.xml
