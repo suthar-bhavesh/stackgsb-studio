@@ -10,6 +10,7 @@ import {
   FaPhone,
 } from "react-icons/fa6";
 import { Mail } from "lucide-react";
+import { trackContactClick } from "../lib/analytics";
 
 function SocialIcons() {
   return (
@@ -201,7 +202,11 @@ export function Footer() {
                     className="group-hover:text-green-900 transition duration-100 ease-in"
                   />
                 </div>
-                <a href="tel:9156105449" className="text-gray-900 text-[14px]">
+                <a
+                  href="tel:9156105449"
+                  onClick={() => trackContactClick("phone")}
+                  className="text-gray-900 text-[14px]"
+                >
                   +91 9156105449
                 </a>
               </div>
@@ -214,6 +219,7 @@ export function Footer() {
                 </div>
                 <a
                   href="mailto:stackgsbstudio@gmail.com"
+                  onClick={() => trackContactClick("email")}
                   className="text-gray-900 text-[14px]"
                 >
                   stackgsbstudio@gmail.com
