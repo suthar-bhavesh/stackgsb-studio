@@ -6,8 +6,6 @@
 
 StackGSB Studio is a digital solutions brand focused on helping startups, entrepreneurs, and growing businesses establish a strong online presence through modern web development, creative graphic design, and digital marketing.
 
-🌐 **Website:** https://stackgsb-studio.vercel.app/
-
 ---
 
 ## About Us
